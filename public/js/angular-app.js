@@ -34,7 +34,7 @@ myApp.controller('AppCtrl', ['$scope', '$http', function ($scope, $http) {
 
 
   var refresh = function () {
-    $http.get('/contactlist').success(function (response) {
+    $http.get('/users').success(function (response) {
       console.log("I got the data I requested");
       $scope.contactlist = response;
       $scope.contact = "";
@@ -53,21 +53,21 @@ myApp.controller('AppCtrl', ['$scope', '$http', function ($scope, $http) {
 
   $scope.remove = function (id) {
     console.log(id);
-    $http.delete('/contactlist/' + id).success(function (response) {
+    $http.delete('/users/id/' + id).success(function (response) {
       refresh();
     });
   };
 
   $scope.edit = function (id) {
     console.log(id);
-    $http.get('/contactlist/' + id).success(function (response) {
+    $http.get('/users/id/' + id).success(function (response) {
       $scope.contact = response;
     });
   };
 
   $scope.update = function () {
     console.log($scope.contact._id);
-    $http.put('/contactlist/' + $scope.contact._id, $scope.contact).success(function (response) {
+    $http.put('/users/id/' + $scope.contact._id, $scope.contact).success(function (response) {
       refresh();
     })
   };
