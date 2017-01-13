@@ -24,7 +24,7 @@ var UserSchema = mongoose.Schema({
 var User = module.exports = mongoose.model('User', UserSchema);
 
 module.exports.createUser = function (newUser, callback) {
-    console.log(newUser);
+   // console.log(newUser);
     newUser.save(callback);
 }
 
@@ -35,6 +35,14 @@ module.exports.getUserByUsername = function (username, callback) {
 
 module.exports.getUserById = function (id, callback) {
     User.findById(id, callback);
+}
+
+module.exports.getUserByFbId = function (id, callback) {
+    User.find({fb_id : id}).exec(function(err, data){
+        if (err) return handleError(err);
+        callback(data);
+
+    });
 }
 
 module.exports.remove = function (id, callback) {

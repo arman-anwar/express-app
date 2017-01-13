@@ -7,10 +7,10 @@ var bodyParser = require('body-parser');
 
 
 
-var FacebookStrategy = require('passport-facebook').Strategy
-  , session = require('express-session')
+var session = require('express-session')
   , cookieParser = require('cookie-parser')
   , passport = require('passport')
+  , config = require('./config/config')
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -18,8 +18,7 @@ var users = require('./routes/users');
 var app = express();
 var mongoose = require('mongoose');
 
-
-mongoose.connect('mongodb://localhost/loginapp');
+mongoose.connect(config.dbUrl);
 var db = mongoose.connection;
 // view engine setup
 app.set('views', __dirname + '/views');

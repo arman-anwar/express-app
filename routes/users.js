@@ -17,16 +17,22 @@ passport.use(new FacebookStrategy({
 },
   function (accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
-      var newUser = new User({
-        name: profile.displayName,
-        email: profile.emails[0].value,
-        fb_id: profile.id,
-        gender: profile.gender
-      });
-
-      User.createUser(newUser, function (err, user) {
-        if (err) throw err;
-        return done(null, profile);
+      User.getUserByFbId(profile.id, function (data) {
+        if (data.length == 0) {
+          var newUser = new User({
+            name: profile.displayName,
+            email: profile.emails[0].value,
+            fb_id: profile.id,
+            gender: profile.gender
+          });
+          User.createUser(newUser, function (err, user) {
+            if (err) throw err;
+            return done(null, profile);
+          });
+        } else {
+          console.log('user already exists');
+          return done(null, profile);
+        }
       });
 
       //Check whether the User exists or not using profile.id
